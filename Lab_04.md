@@ -103,7 +103,7 @@ Das ermöglicht es, viele Dienste hinter einer einzigen IP-Adresse und einem ein
 
 ### Was ist Caddy?
 
-Caddy ist ein moderner Webserver und Reverse Proxy, der sich durch drei Eigenschaften auszeichnet: eine sehr lesbare Konfigurationssprache (das sogenannte Caddyfile), automatisches HTTPS über das ACME-Protokoll (Let's Encrypt), und minimalen Betriebsaufwand. Caddy beantragt, erhält und erneuert TLS-Zertifikate vollständig selbständig – ohne Cronjobs, ohne manuelle Eingriffe.
+[Caddy](https://caddyserver.com/) ist ein moderner Webserver und Reverse Proxy, der sich durch drei Eigenschaften auszeichnet: eine sehr lesbare Konfigurationssprache (das sogenannte Caddyfile), automatisches HTTPS über das ACME-Protokoll (Let's Encrypt), und minimalen Betriebsaufwand. Caddy beantragt, erhält und erneuert TLS-Zertifikate vollständig selbständig – ohne Cronjobs, ohne manuelle Eingriffe.
 
 ### Was ist ufw und wie hängt es mit iptables zusammen?
 
@@ -420,7 +420,8 @@ Ergänzen Sie unterhalb des Dienst-A-Blocks den folgenden Eintrag und ersetzen S
 ```caddy
 # Dienst B – nur nach Authentifizierung erreichbar
 dienst-b.<IHRE-DOMAIN> {
-    basic_auth {
+    basicauth {                            # Für Caddy-Versionen vor 2.8.0
+  # basic_auth {                           # Für Caddy-Versionen ab 2.8.0; siehe https://caddyserver.com/docs/caddyfile/directives/basic_auth
         # Benutzername: admin
         admin <HASH-AUS-OBIGEM-BEFEHL>
     }
@@ -447,7 +448,8 @@ dienst-a.<IHRE-DOMAIN> {
 
 # Dienst B – nur nach Authentifizierung erreichbar
 dienst-b.<IHRE-DOMAIN> {
-    basic_auth {
+    basicauth {                            # Für Caddy-Versionen vor 2.8.0
+  # basic_auth {                           # Für Caddy-Versionen ab 2.8.0; siehe https://caddyserver.com/docs/caddyfile/directives/basic_auth
         admin <HASH-AUS-OBIGEM-BEFEHL>
     }
     reverse_proxy localhost:8002
@@ -527,7 +529,8 @@ dienst-a.<IHRE-DOMAIN> {
 
 # Dienst B – nur nach Authentifizierung erreichbar
 dienst-b.<IHRE-DOMAIN> {
-    basic_auth {
+    basicauth {                            # Für Caddy-Versionen vor 2.8.0
+  # basic_auth {                           # Für Caddy-Versionen ab 2.8.0; siehe https://caddyserver.com/docs/caddyfile/directives/basic_auth
         admin $2a$14$...IhrHashHier...
     }
     reverse_proxy localhost:8002
