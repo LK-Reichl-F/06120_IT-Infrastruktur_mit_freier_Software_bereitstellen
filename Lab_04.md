@@ -420,8 +420,8 @@ Ergänzen Sie unterhalb des Dienst-A-Blocks den folgenden Eintrag und ersetzen S
 ```caddy
 # Dienst B – nur nach Authentifizierung erreichbar
 dienst-b.<IHRE-DOMAIN> {
-    basicauth {                            # Für Versionen vor 2.8
- # basic_auth {                            # Für Versionen ab 2.8   
+    basicauth {                            # Für Caddy-Versionen vor 2.8.0
+  # basic_auth {                           # Für Caddy-Versionen ab 2.8.0; siehe https://caddyserver.com/docs/caddyfile/directives/basic_auth
         # Benutzername: admin
         admin <HASH-AUS-OBIGEM-BEFEHL>
     }
