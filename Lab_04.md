@@ -529,7 +529,8 @@ dienst-a.<IHRE-DOMAIN> {
 
 # Dienst B – nur nach Authentifizierung erreichbar
 dienst-b.<IHRE-DOMAIN> {
-    basic_auth {
+    basicauth {                            # Für Caddy-Versionen vor 2.8.0
+  # basic_auth {                           # Für Caddy-Versionen ab 2.8.0; siehe https://caddyserver.com/docs/caddyfile/directives/basic_auth
         admin $2a$14$...IhrHashHier...
     }
     reverse_proxy localhost:8002
