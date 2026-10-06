@@ -108,8 +108,7 @@ dpkg -l cockpit
 
 > **Tipp:** Achten Sie auf den Status `ii` am Zeilenanfang – das bedeutet: **i**nstalliert und korrekt konfiguriert. Ein `rc` würde bedeuten, das Paket wurde entfernt, aber Konfigurationsdateien sind noch vorhanden.
 
-> **Was ist `dpkg`?**
-> `dpkg`
+
 [↑ Zum Inhaltsverzeichnis](#inhalt)
 
 ---
