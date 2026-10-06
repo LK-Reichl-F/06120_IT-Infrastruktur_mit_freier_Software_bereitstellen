@@ -352,7 +352,7 @@ suche in der /etc/ssh/sshd_config die Zeile mit `PubkeyAuthentication` und erset
 ##### Laden Sie die SSH-Konfiguration neu:
 
 ```bash
-systemctl reload ssh
+systemctl reload sshd
 ```
 
 #### 4.5 Abschließende Überprüfung
