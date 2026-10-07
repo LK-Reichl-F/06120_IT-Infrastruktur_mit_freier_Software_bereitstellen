@@ -274,7 +274,7 @@ server {
 
 `server_name cockpit.<IHRE-DOMAIN>;` legt fest, dass dieser Block nur für Anfragen mit genau diesem Hostnamen zuständig ist – anhand des SNI beim TLS-Handshake entscheidet nginx, welcher von mehreren Server-Blöcken auf Port 443 eine konkrete Anfrage bearbeitet.
 
-`acme_certificate letsencrypt;` ist die zentrale Anweisung: Sie teilt dem ACME-Modul mit, für `cockpit.<IHRE-DOMAIN>` (der Name wird automatisch aus `server_name` übernommen) jederzeit ein gültiges Zertifikat über den zuvor definierten Issuer `letsencrypt` bereitzuhalten. Das Modul überwacht die Restlaufzeit selbst und stößt die Erneuerung rechtzeitig vor **Ablauf der Gültigkeit des Zertifikats** an, ohne dass Sie eingreifen müssen.
+`acme_certificate letsencrypt;` ist die zentrale Anweisung: Sie teilt dem ACME-Modul mit, für `cockpit.<IHRE-DOMAIN>` jederzeit ein gültiges Zertifikat über den zuvor definierten Issuer `letsencrypt` bereitzuhalten. Das Modul überwacht die Restlaufzeit selbst und stößt die Erneuerung rechtzeitig vor **Ablauf der Gültigkeit des Zertifikats** an, ohne dass Sie eingreifen müssen.
 
 `ssl_certificate $acme_certificate;` und `ssl_certificate_key $acme_certificate_key;` verweisen – im Unterschied zu sonst üblichen, statischen Dateipfaden – auf **Variablen**, die das ACME-Modul bereitstellt. Bei einer Erneuerung tauscht das Modul den Inhalt dieser Variablen aus; neue Verbindungen erhalten sofort das aktuelle Zertifikat, ohne dass ein `nginx -t` oder `systemctl reload` nötig wäre. Das unterscheidet diese Lösung von einer klassischen, statischen Konfiguration mit Certbot (alter Lösungsansatz für ACME), bei der nach jeder Erneuerung ein Reload erforderlich ist. 
 
