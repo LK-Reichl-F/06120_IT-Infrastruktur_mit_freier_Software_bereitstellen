@@ -321,7 +321,7 @@ docker pull nginx                              # Image vorab aus der Registry (D
 docker run -d \                                # Container im Hintergrund (detached) starten
   --name nginx-web \                           # sprechender Name, damit der Container später leicht angesprochen werden kann (statt zufälliger ID)
   --restart unless-stopped \                   # Neustart-Policy: Container startet automatisch neu (z. B. nach Docker-Neustart oder Systemboot), außer er wurde manuell gestoppt
-  -p 127.0.0.1:8080:80 \                       # Port-Mapping: nur lokal erreichbar (127.0.0.1), Host-Port 8080 → Container-Port 80
+  -p 127.0.0.1:8080:80 \                       # Port-Mapping: nur lokal erreichbar (127.0.0.1), Host-Port 8080 → Container-Port 80. Der Container ist also nur über die Netzwerkschnittstelle des Hosts erreichbar, welche die Adresse 127.0.0.1 besitzt. Lässt man die IP-Adresse weg, so hört der Container auf allen Schnittstellen, also auch auf der Schnittstelle mit der öffentlichen IP-Adresse des Servers.
   -v /srv/www:/usr/share/nginx/html:ro \        # Bind Mount: Host-Verzeichnis wird read-only in den Container eingebunden, ersetzt die nginx-Standardseite
   nginx                                        # zu verwendendes Image (zuvor per pull geladen, daher kein erneuter Download nötig)
 ```
