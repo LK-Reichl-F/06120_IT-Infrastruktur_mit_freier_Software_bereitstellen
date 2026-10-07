@@ -109,7 +109,7 @@ Das ermöglicht es, viele Dienste hinter einer einzigen IP-Adresse und einem ein
 
 Der Linux-Kernel enthält mit **netfilter** ein eingebautes Paketfiltersystem. **iptables** ist das klassische Kommandozeilenwerkzeug, um netfilter-Regeln zu verwalten – es ist mächtig, aber für einfache Szenarien unhandlich. **ufw** (*Uncomplicated Firewall*) ist ein vereinfachtes Frontend für iptables: Befehle wie `ufw allow https` werden intern in konkrete iptables-Regeln übersetzt. Die tatsächlich aktiven Regeln können jederzeit mit `iptables -L -n -v` eingesehen werden – ufw und iptables arbeiten auf derselben Regelgrundlage.
 
-Hinweis: `iptables` hat einen Nachfolger: `nftables`, welches im [netfilter.org project](https://www.netfilter.org/) dokumentiert ist.
+Hinweis: `iptables` hat einen Nachfolger: `nftables`, welches im [netfilter.org project](https://www.netfilter.org/) dokumentiert ist. (An dieser Stelle sollte dieser Lehrgang für zukünftige Versionen aktualisiert werden.)
 
 [↑ Zum Inhaltsverzeichnis](#inhalt)
 
