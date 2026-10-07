@@ -552,7 +552,6 @@ Beide Seiten müssen mit einem gültigen Let's Encrypt-Zertifikat geladen werden
 
 - Warum wird für die Webseite ein Bind Mount verwendet, für Node-RED-Daten aber ein benanntes Volume? Welche Anforderungen bestimmen diese Wahl?
 - Was passiert, wenn Sie `docker rm nodered` ausführen? Was passiert zusätzlich, wenn Sie `docker volume rm nodered-data` ausführen?
-- Wie können Sie die Daten eines benannten Volumes sichern?
 - Wählen Sie einen beliebigen Dienst und begründen Sie eine sinnvolle Speicherstrategie.
 
 **Zur Absicherung von Docker-Containern:**
