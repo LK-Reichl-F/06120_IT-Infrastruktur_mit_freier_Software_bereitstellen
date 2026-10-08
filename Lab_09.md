@@ -376,10 +376,14 @@ Rufen Sie `https://dashboard.<IHRE-DOMAIN>` auf: Der Login-Bildschirm der `admin
 **Flow einrichten** (Text-Anleitung, da keine Screenshots vorliegen):
 
 1. Melden Sie sich im Node-RED-Editor an. Öffnen Sie über das Menü (☰-Symbol oben rechts) „Palette verwalten", wechseln Sie zum Reiter „Installieren", suchen Sie nach `node-red-contrib-influxdb` und klicken Sie auf „Installieren".
-2. Ziehen Sie aus der Palette (Kategorie „network"/„Netzwerk") einen **mqtt in**-Node auf die Arbeitsfläche. Öffnen Sie ihn per Doppelklick und legen Sie über das Stift-Symbol neben „Server" einen neuen Broker an: Server `mosquitto`, Port `1883` – der Containername `mosquitto` funktioniert hier als Hostname, weil Node-RED und Mosquitto Mitglieder desselben Docker-Netzwerks `iot-net` sind (Docker-DNS, wie in Lab 06, Schritt 7.4 erklärt). Speichern Sie den Broker. Tragen Sie im mqtt-in-Node als Topic `sensoren/raum1` ein, QoS `1`, Ausgabe „a parsed JSON object" (bzw. „ein geparstes JSON-Objekt"). Mit „Fertig" bzw. „Done" übernehmen.
-3. Ziehen Sie aus der Kategorie „storage" einen **influxdb out**-Node auf die Arbeitsfläche. Legen Sie über das Stift-Symbol einen neuen Server an: Version `2.0`, URL `http://influxdb:8086`, Token `<TOKEN-AUS-LAB-07>`. Tragen Sie im Node selbst Organisation `alp`, Bucket `iot` und Measurement `umwelt` ein.
-4. Ziehen Sie zusätzlich einen **debug**-Node auf die Arbeitsfläche (Kategorie „common").
-5. Verbinden Sie den Ausgang des mqtt-in-Nodes sowohl mit dem influxdb-out-Node als auch mit dem debug-Node. Klicken Sie auf „Deploy" (rot, oben rechts). Der mqtt-in-Node sollte darunter „connected" anzeigen.
+2. Ziehen Sie aus der Palette (Kategorie „network"/„Netzwerk") einen **mqtt in**-Node auf die Arbeitsfläche.
+   - Öffnen Sie ihn per Doppelklick und legen Sie über das Stift-Symbol neben „Server" einen neuen Broker an:
+   - Server `mosquitto`, Port `1883` – der Containername `mosquitto` funktioniert hier als Hostname, weil Node-RED und Mosquitto Mitglieder desselben Docker-Netzwerks `iot-net` sind (Docker-DNS, wie in Lab 06, Schritt 7.4 erklärt).
+   - Speichern Sie den Broker. Tragen Sie im mqtt-in-Node als Topic `sensoren/raum1` ein, QoS `1`, Ausgabe „a parsed JSON object" (bzw. „ein geparstes JSON-Objekt").
+   - Mit „Fertig" bzw. „Done" übernehmen.
+4. Ziehen Sie aus der Kategorie „storage" einen **influxdb out**-Node auf die Arbeitsfläche. Legen Sie über das Stift-Symbol einen neuen Server an: Version `2.0`, URL `http://influxdb:8086`, Token `<TOKEN-AUS-LAB-07>`. Tragen Sie im Node selbst Organisation `alp`, Bucket `iot` und Measurement `umwelt` ein.
+5. Ziehen Sie zusätzlich einen **debug**-Node auf die Arbeitsfläche (Kategorie „common").
+6. Verbinden Sie den Ausgang des mqtt-in-Nodes sowohl mit dem influxdb-out-Node als auch mit dem debug-Node. Klicken Sie auf „Deploy" (rot, oben rechts). Der mqtt-in-Node sollte darunter „connected" anzeigen.
 
 Testen Sie die Pipeline Ende-zu-Ende:
 
