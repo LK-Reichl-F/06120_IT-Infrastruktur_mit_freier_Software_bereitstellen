@@ -401,6 +401,8 @@ docker compose exec influxdb influx query --org alp --token "<TOKEN-AUS-LAB-07>"
   'from(bucket:"iot") |> range(start: -15m)'
 ```
 
+Jetzt müsste man mindestens 5 Zeilen mit Zeitstempeln, den Temperaturen aus der `for`-Schleife (oben) und weiteren Daten im Terminal sehen.
+
 > **Was passiert hier?**  
 > Der mqtt-in-Node liefert das Payload-JSON `{"temp": 21.5}` bereits als geparstes Objekt; der influxdb-out-Node übernimmt dessen Eigenschaften 1:1 als Fields – daraus entsteht im Measurement `umwelt` das Field `temp`, genau der Name, den Ihr Portal (Lab 07) und Grafana (Schritt 5) abfragen.
 
