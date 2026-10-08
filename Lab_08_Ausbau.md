@@ -149,7 +149,7 @@ source /etc/backup-env
 ZEITSTEMPEL=$(date +%Y%m%d-%H%M%S)
 ZIEL="/backup/iot-backup-${ZEITSTEMPEL}.csv.gz"
 
-FLUX_QUERY="from(bucket: \"${INFLUX_BUCKET}\") |> range(start: -24h)"
+FLUX_QUERY="from(bucket: \\\"${INFLUX_BUCKET}\\\") |> range(start: -24h)"
 
 curl -s -X POST "${INFLUX_URL}/api/v2/query?org=${INFLUX_ORG}" \
   -H "Authorization: Token ${INFLUX_TOKEN}" \
