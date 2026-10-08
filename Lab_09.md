@@ -222,11 +222,9 @@ apt install -y mosquitto-clients
 
 Damit installieren Sie die Programme (Befehle) `mosquitto_sub` und `mosquitto_pub`.
 
-Mit `mosquitto_sub -h 127.0.0.1 -t 'sensoren/#' &` abonnieren Sie alles Nachrichten vom Host 127.0.0.1, deren Topic mit `sensoren/` beginnt. Das Programm läuft im Hintergrund und gibt die Nachrichten in Ihrem Terminal aus.
-
-Mit `mosquitto_pub -h 127.0.0.1 -t sensoren/raum1 -m '{"temp": 21.5}'` schicken Sie die Nachricht `{"temp": 21.5}` mit dem Topic `sensoren/raum1` an den Message Broker unter der IP-Adresse 127.0.0.1.
-
-Mit `kill %1` stoppen Sie das `mosquitto_sub`-Programm von gerade eben.
+- Mit `mosquitto_sub -h 127.0.0.1 -t 'sensoren/#' &` abonnieren Sie alles Nachrichten vom Host 127.0.0.1, deren Topic mit `sensoren/` beginnt. Das Programm läuft im Hintergrund und gibt die Nachrichten in Ihrem Terminal aus.
+- Mit `mosquitto_pub -h 127.0.0.1 -t sensoren/raum1 -m '{"temp": 21.5}'` schicken Sie die Nachricht `{"temp": 21.5}` mit dem Topic `sensoren/raum1` an den Message Broker unter der IP-Adresse 127.0.0.1. Probieren Sie ruhig, verschiedene Nachrichten zu schicken. Alle Nachrichten mit passendem Topic sollten angezeigt werden.
+- Mit `kill %1` stoppen Sie das `mosquitto_sub`-Programm vom Anfang dieser Liste.
 
 > **Was passiert hier?**  
 > `mosquitto_sub` abonniert im Hintergrund (`&`) das Topic-Muster `sensoren/#` (die Raute steht für „alle Unter-Topics"), `mosquitto_pub` veröffentlicht eine einzelne Nachricht unter `sensoren/raum1`. Erscheint die Nachricht in der Konsole, funktioniert der Broker. `kill %1` beendet den zuletzt im Hintergrund gestarteten Prozess wieder.
