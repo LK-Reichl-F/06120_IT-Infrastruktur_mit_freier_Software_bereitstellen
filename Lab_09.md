@@ -218,10 +218,13 @@ Testen Sie den Broker mit einem lokal installierten MQTT-Client:
 
 ```bash
 apt install -y mosquitto-clients
-mosquitto_sub -h 127.0.0.1 -t 'sensoren/#' &
-mosquitto_pub -h 127.0.0.1 -t sensoren/raum1 -m '{"temp": 21.5}'
-kill %1
 ```
+
+Damit installieren Sie die Programme (Befehle) `mosquitto_sub` und `mosquitto_pub`.
+
+- Mit `mosquitto_sub -h 127.0.0.1 -t 'sensoren/#' &` abonnieren Sie alle Nachrichten vom Host 127.0.0.1, deren Topic mit `sensoren/` beginnt. Das Programm läuft im Hintergrund (wegen des `&`) und gibt die Nachrichten in Ihrem Terminal aus.
+- Mit `mosquitto_pub -h 127.0.0.1 -t sensoren/raum1 -m '{"temp": 21.5}'` schicken Sie die Nachricht `{"temp": 21.5}` mit dem Topic `sensoren/raum1` an den Message Broker unter der IP-Adresse 127.0.0.1. Probieren Sie ruhig, verschiedene Nachrichten zu schicken. Alle Nachrichten mit passendem Topic sollten angezeigt werden.
+- Mit `kill %1` stoppen Sie das `mosquitto_sub`-Programm vom Anfang dieser Liste.
 
 > **Was passiert hier?**  
 > `mosquitto_sub` abonniert im Hintergrund (`&`) das Topic-Muster `sensoren/#` (die Raute steht für „alle Unter-Topics"), `mosquitto_pub` veröffentlicht eine einzelne Nachricht unter `sensoren/raum1`. Erscheint die Nachricht in der Konsole, funktioniert der Broker. `kill %1` beendet den zuletzt im Hintergrund gestarteten Prozess wieder.
@@ -256,7 +259,20 @@ Ergänzen Sie die `compose.yaml` um InfluxDB:
 nano compose.yaml
 ```
 
+Die neue Datei sollte so aussehen:
+
 ```yaml
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:1883:1883"     # nur lokal: fuer mosquitto_pub-Tests vom Host
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    networks:
+      - iot-net
+
   influxdb:
     image: influxdb:2
     restart: unless-stopped
@@ -272,15 +288,15 @@ nano compose.yaml
       - influxdb-config:/etc/influxdb2
     networks:
       - iot-net
-```
 
-Ergänzen Sie außerdem den Top-Level-Schlüssel `volumes:` am Ende der Datei:
+networks:
+  iot-net:
 
-```yaml
 volumes:
   influxdb-data:
   influxdb-config:
 ```
+
 
 Prüfen Sie zunächst, wie Compose Ihre Datei mit eingesetzten `.env`-Werten tatsächlich interpretiert, bevor Sie etwas starten:
 
@@ -363,10 +379,14 @@ Rufen Sie `https://dashboard.<IHRE-DOMAIN>` auf: Der Login-Bildschirm der `admin
 **Flow einrichten** (Text-Anleitung, da keine Screenshots vorliegen):
 
 1. Melden Sie sich im Node-RED-Editor an. Öffnen Sie über das Menü (☰-Symbol oben rechts) „Palette verwalten", wechseln Sie zum Reiter „Installieren", suchen Sie nach `node-red-contrib-influxdb` und klicken Sie auf „Installieren".
-2. Ziehen Sie aus der Palette (Kategorie „network"/„Netzwerk") einen **mqtt in**-Node auf die Arbeitsfläche. Öffnen Sie ihn per Doppelklick und legen Sie über das Stift-Symbol neben „Server" einen neuen Broker an: Server `mosquitto`, Port `1883` – der Containername `mosquitto` funktioniert hier als Hostname, weil Node-RED und Mosquitto Mitglieder desselben Docker-Netzwerks `iot-net` sind (Docker-DNS, wie in Lab 06, Schritt 7.4 erklärt). Speichern Sie den Broker. Tragen Sie im mqtt-in-Node als Topic `sensoren/raum1` ein, QoS `1`, Ausgabe „a parsed JSON object" (bzw. „ein geparstes JSON-Objekt"). Mit „Fertig" bzw. „Done" übernehmen.
-3. Ziehen Sie aus der Kategorie „storage" einen **influxdb out**-Node auf die Arbeitsfläche. Legen Sie über das Stift-Symbol einen neuen Server an: Version `2.0`, URL `http://influxdb:8086`, Token `<TOKEN-AUS-LAB-07>`. Tragen Sie im Node selbst Organisation `alp`, Bucket `iot` und Measurement `umwelt` ein.
-4. Ziehen Sie zusätzlich einen **debug**-Node auf die Arbeitsfläche (Kategorie „common").
-5. Verbinden Sie den Ausgang des mqtt-in-Nodes sowohl mit dem influxdb-out-Node als auch mit dem debug-Node. Klicken Sie auf „Deploy" (rot, oben rechts). Der mqtt-in-Node sollte darunter „connected" anzeigen.
+2. Ziehen Sie aus der Palette (Kategorie „network"/„Netzwerk") einen **mqtt in**-Node auf die Arbeitsfläche.
+   - Öffnen Sie ihn per Doppelklick und legen Sie über das +-Symbol neben „Server“ einen neuen Broker an:
+   - Name und Server beide `mosquitto` nennen, Port `1883` – der Containername `mosquitto` funktioniert hier als Hostname, weil Node-RED und Mosquitto Mitglieder desselben Docker-Netzwerks `iot-net` sind (Docker-DNS, wie in Lab 06, Schritt 7.4 erklärt). Speichern Sie den Broker.
+   - Es erscheinen „Eigenschaften“. Tragen Sie das Topic `sensoren/raum1` ein, QoS `1`, Ausgabe „Ein analysiertes (parsed) JSON-Objekt“.
+   - Mit „Fertig" bzw. „Done" übernehmen.
+4. Ziehen Sie aus der Kategorie „storage" einen **influxdb out**-Node auf die Arbeitsfläche. Legen Sie über das Stift-Symbol einen neuen Server an: Version `2.0`, URL `http://influxdb:8086`, Token `<TOKEN-AUS-LAB-07>`. Tragen Sie im Node selbst Organisation `alp`, Bucket `iot` und Measurement `umwelt` ein.
+5. Ziehen Sie zusätzlich einen **debug**-Node auf die Arbeitsfläche (Kategorie „common").
+6. Verbinden Sie den Ausgang des mqtt-in-Nodes sowohl mit dem influxdb-out-Node als auch mit dem debug-Node. Klicken Sie auf „Deploy" (rot, oben rechts). Der mqtt-in-Node sollte darunter „connected" anzeigen.
 
 Testen Sie die Pipeline Ende-zu-Ende:
 
@@ -383,6 +403,8 @@ Im Debug-Fenster von Node-RED (Käfer-Symbol, rechte Seitenleiste) erscheinen di
 docker compose exec influxdb influx query --org alp --token "<TOKEN-AUS-LAB-07>" \
   'from(bucket:"iot") |> range(start: -15m)'
 ```
+
+Jetzt müsste man mindestens 5 Zeilen mit Zeitstempeln, den Temperaturen aus der `for`-Schleife (oben) und weiteren Daten im Terminal sehen.
 
 > **Was passiert hier?**  
 > Der mqtt-in-Node liefert das Payload-JSON `{"temp": 21.5}` bereits als geparstes Objekt; der influxdb-out-Node übernimmt dessen Eigenschaften 1:1 als Fields – daraus entsteht im Measurement `umwelt` das Field `temp`, genau der Name, den Ihr Portal (Lab 07) und Grafana (Schritt 5) abfragen.
@@ -440,6 +462,7 @@ nano /etc/nginx/conf.d/grafana.conf
 
 ```nginx
 server {
+    listen 80;
     listen 443 ssl;
     server_name grafana.<IHRE-DOMAIN>;
 
