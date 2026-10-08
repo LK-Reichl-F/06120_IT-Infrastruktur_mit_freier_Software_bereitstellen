@@ -464,6 +464,7 @@ nano /etc/nginx/conf.d/grafana.conf
 
 ```nginx
 server {
+    listen 80;
     listen 443 ssl;
     server_name grafana.<IHRE-DOMAIN>;
 
