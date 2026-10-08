@@ -218,10 +218,15 @@ Testen Sie den Broker mit einem lokal installierten MQTT-Client:
 
 ```bash
 apt install -y mosquitto-clients
-mosquitto_sub -h 127.0.0.1 -t 'sensoren/#' &
-mosquitto_pub -h 127.0.0.1 -t sensoren/raum1 -m '{"temp": 21.5}'
-kill %1
 ```
+
+Damit installieren Sie die Programme (Befehle) `mosquitto_sub` und `mosquitto_pub`.
+
+Mit `mosquitto_sub -h 127.0.0.1 -t 'sensoren/#' &` abonnieren Sie alles Nachrichten vom Host 127.0.0.1, deren Topic mit `sensoren/` beginnt. Das Programm läuft im Hintergrund und gibt die Nachrichten in Ihrem Terminal aus.
+
+Mit `mosquitto_pub -h 127.0.0.1 -t sensoren/raum1 -m '{"temp": 21.5}'` schicken Sie die Nachricht `{"temp": 21.5}` mit dem Topic `sensoren/raum1` an den Message Broker unter der IP-Adresse 127.0.0.1.
+
+Mit `kill %1` stoppen Sie das `mosquitto_sub`-Programm von gerade eben.
 
 > **Was passiert hier?**  
 > `mosquitto_sub` abonniert im Hintergrund (`&`) das Topic-Muster `sensoren/#` (die Raute steht für „alle Unter-Topics"), `mosquitto_pub` veröffentlicht eine einzelne Nachricht unter `sensoren/raum1`. Erscheint die Nachricht in der Konsole, funktioniert der Broker. `kill %1` beendet den zuletzt im Hintergrund gestarteten Prozess wieder.
