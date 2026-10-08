@@ -126,6 +126,8 @@ Ein Image-Name wie `portal:2.0` besteht aus dem **Repository** (`portal`) und de
 
 ### Schritt 1: Build-Werkzeug installieren
 
+Hinweis: An dieser Stelle tut man sich sehr viel leichter, wenn man die aktuelle Docker-Version installiert hat, so wie in [Lab05](Lab_05.md) beschrieben. Die einfache Installation von Docker aus dem „original“ Debian Repository macht in diesem Lab Probleme. Die Anleitung zur Installation der aktuellen Docker-Version enthält auch das Entfernen der Debian-Docker-Installation.
+
 Das Docker-Repository ist seit Lab 05 eingebunden – es fehlt nur das Buildx-Plugin:
 
 ```bash
@@ -307,6 +309,7 @@ nano .dockerignore
 __pycache__/
 *.pyc
 .env
+Dockerfile
 ```
 
 > **⚠️ Wichtig:** In den Build-Kontext gehören **niemals Geheimnisse**. Eine versehentlich mitkopierte `.env`-Datei mit Zugangsdaten landet sonst als Layer im Image – und ist dort für jeden auslesbar, der das Image in die Finger bekommt, selbst wenn die Datei in einem späteren Layer wieder „gelöscht" wird. Der Eintrag `.env` ist hier also kein Platzhalter, sondern eine Versicherung; in Lab 08 werden Sie eine solche Datei tatsächlich verwenden.
