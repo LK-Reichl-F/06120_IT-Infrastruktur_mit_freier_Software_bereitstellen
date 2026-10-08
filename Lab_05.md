@@ -88,7 +88,9 @@ Im Vergleich zur direkten Installation auf dem Host stellt sich dabei eine wicht
 
 Docker ist auf dem Server noch nicht vorhanden. 
 
-#### _Variante A: schnelle Installation_
+#### _Variante A: „schnelle“ Installation_
+
+**Die „schnelle“ Installation ist nur für Lab05 schnell. Später, in Lab08, benötigen wir die aktuelle Docker Version. Deshalb empfiehlt sich schon hier die Variante B.**
 
 > Hinweis: Die aktuelle Version von Docker Stand September 2026 ist Version 29. Mit diesem Befehl installieren Sie in Debian Trixie die Docker-Version 26:
 > 
