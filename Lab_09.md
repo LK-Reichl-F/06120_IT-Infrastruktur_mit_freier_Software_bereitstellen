@@ -256,7 +256,20 @@ Ergänzen Sie die `compose.yaml` um InfluxDB:
 nano compose.yaml
 ```
 
+Die neue Datei sollte so aussehen:
+
 ```yaml
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:1883:1883"     # nur lokal: fuer mosquitto_pub-Tests vom Host
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    networks:
+      - iot-net
+
   influxdb:
     image: influxdb:2
     restart: unless-stopped
@@ -272,6 +285,9 @@ nano compose.yaml
       - influxdb-config:/etc/influxdb2
     networks:
       - iot-net
+
+networks:
+  iot-net:
 ```
 
 Ergänzen Sie außerdem den Top-Level-Schlüssel `volumes:` am Ende der Datei:
