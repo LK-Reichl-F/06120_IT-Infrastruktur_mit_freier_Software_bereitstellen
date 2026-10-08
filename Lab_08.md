@@ -331,7 +331,7 @@ docker network create portal-test
 openssl rand -hex 32    # Erzeugen: 32 Zufallsbytes | Umwandeln: als Hexadezimalzeichen ausgeben
 ```
 
-> **⚠️ Wichtig:** Notieren Sie sich die Ausgabe von `openssl rand` – sie ist Ihr `<TOKEN>` für dieses **und** das nächste Lab. Ersetzen Sie in allen folgenden Befehlen `<TOKEN>` durch diesen Wert (und `<SICHERES-PASSWORT>` durch ein selbst gewähltes Passwort).
+> **⚠️ Wichtig:** Notieren Sie sich die Ausgabe von `openssl rand` – sie ist Ihr `<TOKEN>` für dieses **und** das nächste Lab. Ersetzen Sie in allen folgenden Befehlen `<TOKEN>` durch diesen Wert (und `<SICHERES-PASSWORT>` durch ein selbst gewähltes Passwort mit mindestens 8 Zeichen Länge).
 
 ```bash
 docker run -d --name influxdb --network portal-test \
