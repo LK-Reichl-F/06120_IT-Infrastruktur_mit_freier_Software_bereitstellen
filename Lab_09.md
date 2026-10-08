@@ -288,15 +288,12 @@ services:
 
 networks:
   iot-net:
-```
 
-Ergänzen Sie außerdem den Top-Level-Schlüssel `volumes:` am Ende der Datei:
-
-```yaml
 volumes:
   influxdb-data:
   influxdb-config:
 ```
+
 
 Prüfen Sie zunächst, wie Compose Ihre Datei mit eingesetzten `.env`-Werten tatsächlich interpretiert, bevor Sie etwas starten:
 
